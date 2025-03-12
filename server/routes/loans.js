@@ -224,29 +224,7 @@ router.get("/:id/schedule", auth, async (req, res) => {
   }
 });
 
-function generateRepaymentSchedule(amount, interestRate, duration) {
-  const monthlyInterest = interestRate / 12 / 100;
-  const monthlyPayment =
-    (amount * monthlyInterest * Math.pow(1 + monthlyInterest, duration)) /
-    (Math.pow(1 + monthlyInterest, duration) - 1);
 
-  const schedule = [];
-  let remainingBalance = amount;
-
-  for (let i = 1; i <= duration; i++) {
-    const interest = remainingBalance * monthlyInterest;
-    const principal = monthlyPayment - interest;
-    remainingBalance -= principal;
-
-    schedule.push({
-      dueDate: new Date(Date.now() + i * 30 * 24 * 60 * 60 * 1000),
-      amount: monthlyPayment,
-      status: "pending",
-    });
-  }
-
-  return schedule;
-}
 router.get("/pending-investments", [auth, checkRole(["admin"])], async (req, res) => {
   try {
     const loans = await Loan.find({ "status": ["pending" ,"verified"]})
@@ -293,27 +271,26 @@ router.post("/verify-investment", [auth, checkRole(["admin"])], async (req, res)
 router.post("/credit-investment", [auth, checkRole(["admin"])], async (req, res) => {
   try {
     const { loanId, investorId } = req.body;
-    
 
     const loan = await Loan.findById(loanId).populate("farm");
     if (!loan) return res.status(404).json({ message: "Loan not found" });
 
-
     const investor = loan.investors.find(inv => inv.investor.toString() === investorId._id);
     if (!investor) return res.status(404).json({ message: "Investor not found" });
 
-   
     if (loan.status !== "verified") {
       return res.status(400).json({ message: "Investment must be verified before crediting" });
     }
 
-   
     if (investor.status === "credited") {
       return res.status(400).json({ message: "Investment has already been credited" });
     }
 
     loan.status = "credited";
 
+    const repaymentSchedule = generateRepaymentSchedule(loan.amount);
+
+    loan.repaymentSchedule = repaymentSchedule;
 
     await Transaction.create({
       loan: loan._id,
@@ -326,11 +303,27 @@ router.post("/credit-investment", [auth, checkRole(["admin"])], async (req, res)
 
     await loan.save();
 
-    res.status(200).json({ message: "Investment credited successfully." });
+    res.status(200).json({ message: "Investment credited successfully and repayment schedule generated." });
   } catch (error) {
-
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
+
+function generateRepaymentSchedule(amount) {
+  const schedule = [];
+  const repaymentAmount = amount / 10;
+  for (let i = 1; i <= 10; i++) {
+    const dueDate = new Date();
+    dueDate.setMonth(dueDate.getMonth() + i);
+
+    schedule.push({
+      dueDate: dueDate,
+      amount: repaymentAmount,
+      status: "pending",
+    });
+  }
+  return schedule;
+}
+
 
 export default router;

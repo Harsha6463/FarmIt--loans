@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../Navbar/Navbar";
 import API from "../../API";
 import { toast } from "react-toastify";
-import {  NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./MyLoans.css";
-
 
 const MyLoans = () => {
   const [loans, setLoans] = useState([]);
@@ -96,9 +95,9 @@ const MyLoans = () => {
           <p className="no-loans">No loans found.</p>
         )}
 
-<NavLink to={`/issue/farmer`}>
-        <button className="report-issue-btn"> Report an Issue?</button>
-      </NavLink>
+        <NavLink to={`/issue/farmer`}>
+          <button className="report-issue-btn"> Report an Issue?</button>
+        </NavLink>
 
         {selectedLoan && (
           <div className="modal-overlay">
@@ -116,37 +115,40 @@ const MyLoans = () => {
               <p>
                 <b>Status:</b> {selectedLoan.status}
               </p>
-              <h3>Repayment Schedule:</h3>
-              <ul>
-                {selectedLoan.repaymentSchedule.map((payment, index) => (
-                  <li key={index} className="repayment-item">
-                    <p>
-                      <b>Due Date:</b>{" "}
-                      {new Date(payment.dueDate).toLocaleDateString()}
-                    </p>
-                    <p>
-                      <b>Amount:</b> Rs {payment.amount.toLocaleString()}
-                    </p>
-                    <p>
-                      <b>Status:</b> {payment.status}
-                    </p>
-                    {payment.status === "pending" && (
-                      <button
-                        className="repay-btn"
-                        onClick={() =>
-                          handleRepayment(
-                            selectedLoan._id,
-                            payment.amount,
-                            selectedLoan.investors[0]?.investor._id
-                          )
-                        }
-                      >
-                        Repay
-                      </button>
-                    )}
-                  </li>
-                ))}
-              </ul>
+              {selectedLoan.status === "credited" && (
+                <>
+                  <h3>Repayment Schedule:</h3>
+                  <ul>
+                    {selectedLoan.repaymentSchedule.map((payment, index) => (
+                      <li key={index} className="repayment-item">
+                        <p>
+                          <b>Due Date:</b> {new Date(payment.dueDate).toLocaleDateString()}
+                        </p>
+                        <p>
+                          <b>Amount:</b> Rs {payment.amount.toLocaleString()}
+                        </p>
+                        <p>
+                          <b>Status:</b> {payment.status}
+                        </p>
+                        {payment.status === "pending" && (
+                          <button
+                            className="repay-btn"
+                            onClick={() =>
+                              handleRepayment(
+                                selectedLoan._id,
+                                payment.amount,
+                                selectedLoan.investors[0]?.investor._id
+                              )
+                            }
+                          >
+                            Repay
+                          </button>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </div>
           </div>
         )}

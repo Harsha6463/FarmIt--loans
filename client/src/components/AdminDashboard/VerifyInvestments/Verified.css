@@ -1,0 +1,81 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+}
+
+.loan-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  width: 70%;
+  max-width: 1200px;
+}
+
+.loan-item {
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  text-align: left;
+}
+
+.loan-item:hover {
+  transform: scale(1.03);
+}
+
+.loan-item h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.loan-item p {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #666;
+}
+
+button {
+  display: inline-block;
+  padding: 12px 25px;
+  font-size: 16px;
+  margin-top: 12px;
+  margin-right: 15px;
+  cursor: pointer;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.5);
+}
+button.credit {
+  background-color: #15531d;
+  color: white;
+}
+
+button.credit:hover:not(:disabled) {
+  background-color: #ecdbcd;
+  transform: translateY(-2px);
+  color: black;
+}
+
+button.credit:active:not(:disabled) {
+  background-color: #d35400;
+}
+
+button.credit:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}

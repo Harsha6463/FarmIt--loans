@@ -1,0 +1,188 @@
+.status {
+  font-weight: bold;
+}
+
+.active-status {
+  color: orange;
+}
+
+.completed-status {
+  color: green;
+}
+
+.investor-feed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.dashboard-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.farm-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.farm-card {
+  background: cornsilk;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  width: 354px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.farm-card:hover {
+  transform: scale(1.02);
+}
+
+.farm-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.farm-card p {
+  margin: 5px 0;
+}
+
+.no-farms {
+  font-size: 18px;
+  color: #888;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.farm-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.interested-btn {
+  padding: 0.5rem 1rem;
+  background-color: black;
+  color: white;
+  width: 140px;
+  height: 50px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 10px;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.loading-message {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.report-issue-btn {
+  padding: 0.5rem 1rem;
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: 500;
+  font-size: 18px;
+  position: fixed;
+  right: 15px;
+  bottom: 30px;
+  transition: background 0.3s ease;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-container {
+  background-color: black;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  max-height: 80%;
+  overflow-y: auto;
+  position: relative;
+  color: white;
+  text-align: left;
+}
+
+.close-popup-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  font-size: 16px;
+}
+
+.close-popup-btn:hover {
+  background-color: darkred;
+}
+
+.pending-loans-section {
+  margin-top: 40px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.pending-loans-section h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.verify-btn,
+.credit-btn {
+  background-color: green;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.verify-btn:hover,
+.credit-btn:hover {
+  background-color: darkgreen;
+}

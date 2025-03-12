@@ -1,0 +1,41 @@
+.admin-issues-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.issues-dashboard-content {
+  width: 80%;
+  max-width: 1200px;
+}
+
+.issues-cards-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.issue-item-card {
+  background: cornsilk;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  width: 350px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  text-align: left;
+}
+
+.issue-item-card:hover {
+  transform: scale(1.02);
+}
+
+.loading-text,
+.no-issue-data {
+  font-size: 18px;
+  color: #888;
+  text-align: center;
+  margin-top: 20px;
+}

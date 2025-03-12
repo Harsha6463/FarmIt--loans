@@ -1,0 +1,95 @@
+.admin-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px;
+
+}
+
+.dashboard-content {
+  width: 90%;
+  max-width: 1200px;
+}
+
+h1#heading2 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+}
+
+.loan-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.loan-card {
+  background: linear-gradient(145deg, #7eeb4f, #528cf0);
+  border-radius: 15px;
+  padding: 30px;
+  color: white;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  text-align: left;
+  cursor: pointer;
+}
+
+.loan-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+.loan-card h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #fff;
+}
+
+.loan-card p {
+  font-size: 18px;
+  margin-bottom: 12px;
+  color: #f1f1f1;
+}
+
+.loan-card p b {
+  color: blue;
+}
+
+.loading-message,
+.no-loans {
+  font-size: 22px;
+  color: #888;
+  text-align: center;
+  margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+  .loan-list {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+
+  h1#heading2 {
+    font-size: 2.2rem;
+    margin-top: 60px;
+  }
+
+  .loan-card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loan-list {
+    grid-template-columns: 1fr;
+  }
+
+  .loan-card {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+}

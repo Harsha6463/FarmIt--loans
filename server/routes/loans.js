@@ -95,7 +95,6 @@ router.post(
         to: toUserId,
       });
       await transaction.save();
-
       if (!loan) {
         return res.status(404).json({ message: "Loan not found" });
       }

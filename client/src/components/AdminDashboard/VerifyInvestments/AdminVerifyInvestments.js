@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import API from "../../../API";
 import Navbar from "../../Navbar/Navbar";
-import './Verified.css'
+import './Verified.css';
 
 const AdminDashboard = () => {
   const [pendingLoans, setPendingLoans] = useState([]);

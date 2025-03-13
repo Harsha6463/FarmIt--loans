@@ -41,7 +41,7 @@ const MyDocuments = () => {
       const config = { headers: { Authorization: `Bearer ${token}` } };
       await API.delete(`/documents/${id}`, config);
       toast.success("Document deleted successfully!");
-      fetchDocuments(); // Re-fetch documents after deletion
+      fetchDocuments(); 
     } catch (error) {
       console.error("Error deleting document:", error);
       toast.error(error.response?.data?.message || "Failed to delete document");

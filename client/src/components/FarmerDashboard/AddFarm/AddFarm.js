@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./AddFarm.css";
 import Navbar from "../../Navbar/Navbar";
 import API from "../../../API";
@@ -15,18 +15,54 @@ const AddFarm = () => {
     productionCapacity: "",
     images: [],
   });
+  const [documents, setDocuments] = useState([]);
+  const [isVerified, setIsVerified] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const checkDocumentStatus = async () => {
+      try {
+        const response = await API.get("/documents/my-documents");
+        console.log(response.data);
+        setDocuments(response.data);
+
+        let verified = false;
+        response.data.forEach((document) => {
+          console.log(document.isVerified)
+          if (document.isVerified ) {
+            verified = true;
+          }
+        });
+        setIsVerified(verified);
+        console.log("Document verified:", verified);
+      } catch (error) {
+        toast.error("Error fetching documents status");
+        console.error("Error fetching documents:", error);
+      }
+    };
+
+    checkDocumentStatus();
+  }, []);
+
   const handleChange = (e) => {
+    console.log("Input changed:", e.target.name, e.target.value);
     setFarmData({ ...farmData, [e.target.name]: e.target.value });
   };
 
   const handleImageChange = (e) => {
+    console.log("Images changed:", e.target.files);
     setFarmData({ ...farmData, images: e.target.files });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Form submitted");
+
+    if (!isVerified) {
+      toast.error("You cannot add a farm until your documents are verified.");
+      console.log("Form submission blocked - Documents not verified");
+      return;
+    }
 
     const formData = new FormData();
     for (const key in farmData) {
@@ -40,26 +76,29 @@ const AddFarm = () => {
     }
 
     try {
+      console.log("Sending farm data:", formData);
       await API.post("/farms/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
       toast.success("Farm added successfully!");
+      console.log("Farm added successfully!");
       navigate("/farmerDashboard");
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Error during adding farm land"
       );
+      console.error("Error during farm addition:", error);
     }
   };
 
   return (
     <>
-      <Navbar isInvestor={false} />
-      <div style={{marginTop:"100px"}} className="card">
+      <Navbar UserType={"farmer"} />
+      <div style={{ marginTop: "100px" }} className="card">
         <div className="card-image">
-          <div  className="card-heading">
+          <div className="card-heading">
             Add Farm Land
             <small>Add farm details below</small>
           </div>
@@ -150,7 +189,7 @@ const AddFarm = () => {
             </div>
 
             <div className="action">
-              <button type="submit" className="action-button">
+              <button  type="submit" className="action-button" disabled={!isVerified}>
                 Add Farm
               </button>
             </div>
@@ -159,6 +198,22 @@ const AddFarm = () => {
 
         <div className="card-info">
           <p>Upload your farm's images and details above.</p>
+        </div>
+
+        <div className="documents-status">
+          <h3>Document Statuses</h3>
+          {documents.length === 0 ? (
+            <p>No documents found.</p>
+          ) : (
+            documents.map((document) => (
+              <div key={document._id}>
+                <p>{document.title}</p>
+                <span status style={{ color: document.isVerified ? "green" : "red" }}>
+                      {document.isVerified ? "Verified" : "Not Verified"}
+                    </span>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </>

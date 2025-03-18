@@ -24,6 +24,11 @@ const MyLoans = () => {
 
   const handleRepayment = async (loanId, amount, investorId) => {
     const farmerId = localStorage.getItem("farmerId");
+    if (!farmerId) {
+      toast.error("Farmer ID is missing. Please log in.");
+      return;
+    }
+
     const confirmed = window.confirm(`Do you want to repay Rs. ${amount}?`);
     if (confirmed) {
       try {

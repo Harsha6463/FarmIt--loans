@@ -7,16 +7,27 @@ import Transaction from "../models/Transaction.js";
 
 router.get("/my-loans", auth, async (req, res) => {
   try {
-    const loans = await Loan.find()
-      .populate("farm")
-      .populate("investors.investor");
+    const userFarms = await Farm.find({ farmer: req.user.userId }).select('_id');
+    const farmIds = userFarms.map(farm => farm._id);
+    const loans = await Loan.find({ farm: { $in: farmIds } })
+      .populate({
+        path: 'investors.investor',
+        select: 'name email',
+      })
+      .populate('farm');
 
+    console.log("Loans fetched:", loans);
     res.json(loans);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    console.error("Error fetching loans:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 });
+
+
+
+
+
 
 
 
@@ -161,8 +172,7 @@ router.post(
       res.status(500).json({ message: "Server error" });
     }
   }
-);
-
+); 
 
 
 router.post("/:id/repay", [auth, checkRole(["farmer"])], async (req, res) => {

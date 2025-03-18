@@ -87,34 +87,22 @@ router.post(
       const { amount, fromUserId, toUserId } = req.body;
       const loan = await Loan.findById(req.params.id);
 
-      const transaction = new Transaction({
-        type: "investment",
-        amount: amount,
-        loan: loan,
-        from: fromUserId,
-        to: toUserId,
-      });
-      await transaction.save();
       if (!loan) {
         return res.status(404).json({ message: "Loan not found" });
       }
 
       if (loan.status !== "pending") {
-        return res
-          .status(400)
-          .json({ message: "Loan is not available for investment" });
+        return res.status(400).json({ message: "Loan is not available for investment" });
       }
 
       const totalInvested =
         loan.investors.reduce((sum, inv) => sum + inv.amount, 0) + amount;
       if (totalInvested > loan.amount) {
-        return res
-          .status(400)
-          .json({ message: "Investment amount exceeds loan requirement" });
+        return res.status(400).json({ message: "Investment amount exceeds loan requirement" });
       }
 
       loan.investors.push({
-        investor: req.user.userId,
+        investor: fromUserId,
         amount,
       });
 
@@ -124,7 +112,47 @@ router.post(
 
       await loan.save();
       res.json({
-        message: "Investment successful and transaction recorded",
+        message: "Investment successful and loan updated",
+        loan,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Server error" });
+    }
+  }
+);
+
+router.post(
+  "/:id/credit-investment",
+  [auth, checkRole(["admin"])],
+  async (req, res) => {
+    try {
+      const { loanId } = req.params;
+      const loan = await Loan.findById(loanId);
+
+      if (!loan) {
+        return res.status(404).json({ message: "Loan not found" });
+      }
+
+      if (loan.status !== "pending") {
+        return res.status(400).json({ message: "Loan is not ready for crediting" });
+      }
+
+      loan.status = "credited";
+      await loan.save();
+
+      const transaction = new Transaction({
+        type: "investment",
+        amount: loan.amount,
+        loan: loan._id,
+        from: loan.investors.map(inv => inv.investor),
+        to: loan.farmer,
+      });
+
+      await transaction.save();
+
+      res.json({
+        message: "Investment credited and transaction saved",
         loan,
         transaction,
       });

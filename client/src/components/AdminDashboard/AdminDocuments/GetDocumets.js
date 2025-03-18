@@ -17,6 +17,7 @@ const GetDocuments = () => {
           },
         });
         setDocuments(response.data);
+        toast.success('Documents fetched successfully!');
       } catch (err) {
         setError('Failed to fetch documents');
         console.error(err);

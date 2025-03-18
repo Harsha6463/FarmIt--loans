@@ -17,14 +17,14 @@ const UserProfile = () => {
         if (!token) {
           navigate("/login");
         } else {
-          const response = await API.get("http://localhost:3600/api/users/profile", {
+          const response = await API.get("/users/profile", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
           setUser(response.data);
 
-          // Fetch documents after getting the profile
+       
           const documentsResponse = await API.get("/documents/my-documents", {
             headers: { Authorization: `Bearer ${token}` },
           });
@@ -45,11 +45,10 @@ const UserProfile = () => {
   return (
     <div className="profile-container" style={{ marginTop: "100px" }}>
       <Navbar UserType={'farmer'} />
-      <h1>User Profile</h1>
+      <h1 style={{color:"black"}}>User Profile</h1>
       <div className="profile-info">
         {user.profilePic && (
           <div className="profile-picture">
-            <h3>Profile Picture:</h3>
             <img
               src={`http://localhost:3600/${user.profilePic}`}
               alt="Profile"
@@ -58,28 +57,28 @@ const UserProfile = () => {
           </div>
         )}
         <div className="user-details">
-        <h3>User Profile</h3>
+        <h3 style={{color:"black"}}>User Profile</h3>
           <div className="user-detail">
             
-            <b>First Name:</b>
-            <p style={{ fontSize: "1.30rem" }}>{user.firstName}</p>
+            <b className="bold">First Name:</b>
+            <p style={{ fontSize: "1.30rem" ,color:"black"}}>{user.firstName}</p>
           </div>
           <div className="user-detail">
-            <b>Last Name:</b>
-            <p style={{ fontSize: "1.30rem" }}>{user.lastName}</p>
+            <b className="bold">Last Name:</b>
+            <p style={{ fontSize: "1.30rem", color:"black" }}>{user.lastName}</p>
           </div>
           <div className="user-detail">
-            <b>Email:</b>
-            <p style={{ fontSize: "1.30rem" }}>{user.email}</p>
+            <b className="bold">Email:</b>
+            <p style={{ fontSize: "1.30rem" ,color:"black"}}>{user.email}</p>
           </div>
           <div className="user-detail">
-            <b>Role:</b>
-            <p style={{ fontSize: "1.30rem" }}>{user.role}</p>
+            <b className="bold">Role:</b>
+            <p id="text">{user.role}</p>
           </div>
           <div className="user-detail">
-            <b>Status:</b>
-            <p
-              style={{ fontSize: "1.30rem" }}
+            <b className="bold">Status:</b>
+            <p style={{fontSize:"1.25rem"}}
+             
               className={user.isVerified ? 'verified' : 'not-verified'}
             >
               {user.isVerified ? "Verified" : "Not Verified"}
@@ -87,7 +86,7 @@ const UserProfile = () => {
           </div>
 
          
-          <h3>My Documents Status</h3>
+          <h3 style={{color:"black"}}>My Documents Status</h3>
           <div>
             {documents.length === 0 ? (
               <p>No documents uploaded yet.</p>
@@ -95,7 +94,7 @@ const UserProfile = () => {
               <ul>
                 {documents.map((doc) => (
                   <li key={doc._id}>
-                    <b style={{ fontWeight: 'bold' }}>{doc.title}</b> -{" "}
+                    <b className="bold" style={{ fontWeight: 'bold' }}>{doc.title}</b> -{" "}
                     <span style={{ color: doc.isVerified ? "green" : "red" }}>
                       {doc.isVerified ? "Verified" : "Not Verified"}
                     </span>

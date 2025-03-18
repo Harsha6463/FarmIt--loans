@@ -201,7 +201,7 @@ const AddFarm = () => {
         </div>
 
         <div className="documents-status">
-          <h3>Document Statuses</h3>
+          <h3>Documents Status</h3>
           {documents.length === 0 ? (
             <p>No documents found.</p>
           ) : (

@@ -26,6 +26,7 @@ router.put('/users/:id/verify', [auth, checkRole(['admin'])], async (req, res) =
     ).select('-password');
     
     res.json(user);
+    
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });

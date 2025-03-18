@@ -4,7 +4,6 @@ import { auth, checkRole } from "../middleware/auth.js";
 import Loan from "../models/Loan.js";
 import Farm from "../models/Farm.js";
 import Transaction from "../models/Transaction.js";
-
 router.get("/my-loans", auth, async (req, res) => {
   try {
     const userFarms = await Farm.find({ farmer: req.user.userId }).select('_id');
@@ -23,7 +22,6 @@ router.get("/my-loans", auth, async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 });
-
 
 
 

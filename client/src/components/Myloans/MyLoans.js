@@ -37,7 +37,7 @@ const MyLoans = () => {
           toast.success(response.data.message);
           fetchLoans();
         } else {
-          toast.error("Unexpected response format.");
+          toast.error("Unexpected response .");
         }
       } catch {
         toast.error("Error while repaying amount.");

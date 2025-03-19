@@ -94,7 +94,7 @@ const UserProfile = () => {
               <ul>
                 {documents.map((doc) => (
                   <li key={doc._id}>
-                    <b className="bold" style={{ fontWeight: 'bold' }}>{doc.title}</b> -{" "}
+                    <b className="bold" style={{ fontWeight: 'bold' }}>{doc.title} :</b> -{" "}
                     <span style={{ color: doc.isVerified ? "green" : "red" }}>
                       {doc.isVerified ? "Verified" : "Not Verified"}
                     </span>

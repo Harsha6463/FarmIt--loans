@@ -106,6 +106,11 @@ const Navbar = ({ UserType }) => {
               style={({ isActive }) => activeNavLink(isActive)}
             >
               Analytics
+            </NavLink> <NavLink
+              to="/profile"
+              className="nav-item"
+            >
+              <FaUserCircle size={25} />
             </NavLink>
           </>
         )}

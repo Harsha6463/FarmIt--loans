@@ -151,7 +151,10 @@ ul li span {
       height: 120px;
   }
 }
-
+.nodocuments{
+  color: black;
+  font-size: 1.25rem;
+}
 
 #text{
  font-size: 1.30rem;

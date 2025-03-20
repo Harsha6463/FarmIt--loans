@@ -24,7 +24,6 @@ const UserProfile = () => {
           });
           setUser(response.data);
 
-       
           const documentsResponse = await API.get("/documents/my-documents", {
             headers: { Authorization: `Bearer ${token}` },
           });
@@ -44,8 +43,8 @@ const UserProfile = () => {
 
   return (
     <div className="profile-container" style={{ marginTop: "100px" }}>
-      <Navbar UserType={'farmer'} />
-      <h1 style={{color:"black"}}>User Profile</h1>
+      <Navbar UserType={user.role} /> 
+      <h1 style={{ color: "black" }}>User Profile</h1>
       <div className="profile-info">
         {user.profilePic && (
           <div className="profile-picture">
@@ -57,19 +56,18 @@ const UserProfile = () => {
           </div>
         )}
         <div className="user-details">
-        <h3 style={{color:"black"}}>User Profile</h3>
+          <h3 style={{ color: "black" }}>User Profile</h3>
           <div className="user-detail">
-            
             <b className="bold">First Name:</b>
-            <p style={{ fontSize: "1.30rem" ,color:"black"}}>{user.firstName}</p>
+            <p style={{ fontSize: "1.30rem", color: "black" }}>{user.firstName}</p>
           </div>
           <div className="user-detail">
             <b className="bold">Last Name:</b>
-            <p style={{ fontSize: "1.30rem", color:"black" }}>{user.lastName}</p>
+            <p style={{ fontSize: "1.30rem", color: "black" }}>{user.lastName}</p>
           </div>
           <div className="user-detail">
             <b className="bold">Email:</b>
-            <p style={{ fontSize: "1.30rem" ,color:"black"}}>{user.email}</p>
+            <p style={{ fontSize: "1.30rem", color: "black" }}>{user.email}</p>
           </div>
           <div className="user-detail">
             <b className="bold">Role:</b>
@@ -77,19 +75,15 @@ const UserProfile = () => {
           </div>
           <div className="user-detail">
             <b className="bold">Status:</b>
-            <p style={{fontSize:"1.25rem"}}
-             
-              className={user.isVerified ? 'verified' : 'not-verified'}
-            >
+            <p style={{ fontSize: "1.25rem" }} className={user.isVerified ? 'verified' : 'not-verified'}>
               {user.isVerified ? "Verified" : "Not Verified"}
             </p>
           </div>
 
-         
-          <h3 style={{color:"black"}}>My Documents Status</h3>
+          <h3 style={{ color: "black" }}>My Documents Status</h3>
           <div>
             {documents.length === 0 ? (
-              <p>No documents uploaded yet.</p>
+              <p className="nodocuments">No documents uploaded yet.</p>
             ) : (
               <ul>
                 {documents.map((doc) => (
@@ -104,7 +98,6 @@ const UserProfile = () => {
             )}
           </div>
 
-         
           <NavLink
             to="/documents"
             className="nav-item"

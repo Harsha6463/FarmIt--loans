@@ -2,15 +2,15 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import authRoutes from "./routes/auth.js";
-import userRoutes from "./routes/users.js";
-import farmRoutes from "./routes/farms.js";
-import loanRoutes from "./routes/loans.js";
-import investmentRoutes from "./routes/investments.js";
-import transactionRoutes from "./routes/transactions.js";
-import documentRoutes from "./routes/documents.js";
-import adminRoutes from "./routes/admin.js";
-import issueRoutes from "./routes/issues.js";
+import authRoutes from "./Routes/authRoutes.js";
+import userRoutes from "./Routes/userRoutes.js";
+import farmRoutes from "./Routes/farmRoutes.js";
+import investmentRoutes from "./Routes/investmentRoutes.js";
+import transactionRoutes from "./Routes/transactionRoutes.js";
+import documentRoutes from "./Routes/documentRoutes.js";
+import adminRoutes from "./Routes/adminRoutes.js";
+import issueRoutes from "./Routes/issueRoutes.js";
+import loanRoutes from "./Routes/loanRoutes.js"
 
 dotenv.config();
 
@@ -27,7 +27,7 @@ mongoose
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/farms", farmRoutes);
-app.use("/api/loans", loanRoutes);
+app.use("/api/loans",loanRoutes)
 app.use("/api/investments", investmentRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/documents", documentRoutes);

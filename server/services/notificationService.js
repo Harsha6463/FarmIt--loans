@@ -1,5 +1,5 @@
-const User = require('../models/User');
-const { sendEmail, emailTemplates } = require('./emailService');
+import User from '../models/User.js';
+import { sendEmail, emailTemplates } from './emailService.js';
 
 const notifyUser = async (userId, type, data) => {
   try {
@@ -40,6 +40,4 @@ const notifyUser = async (userId, type, data) => {
   }
 };
 
-module.exports = {
-  notifyUser
-}; 
+export { notifyUser };

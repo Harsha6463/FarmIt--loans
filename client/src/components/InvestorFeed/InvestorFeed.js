@@ -111,7 +111,11 @@ const InvestorFeed = () => {
             {loans.length > 0 ? (
               loans.map((loan) => (
                 <div key={loan._id} className="farm-card">
-                  <img src={`http://localhost:3600/${loan.farm.images}`} alt="Farm Land Pictures" className="farm-image" />
+                  {loan.farm && loan.farm.images ? (
+                    <img src={`http://localhost:3600/${loan.farm.images}`} alt="Farm Land Pictures" className="farm-image" />
+                  ) : (
+                    <div className="no-image">No images available</div>
+                  )}
                   <h2 className="farm-name">
                     <b>Status:</b>
                     <span
@@ -142,7 +146,11 @@ const InvestorFeed = () => {
             <div className="farm-list">
               {pendingLoans.map((loan) => (
                 <div key={loan._id} className="farm-card">
-                  <img src={`http://localhost:3600/${loan.farm.images}`} alt="Farm Land Pictures" className="farm-image" />
+                  {loan.farm && loan.farm.images ? (
+                    <img src={`http://localhost:3600/${loan.farm.images}`} alt="Farm Land Pictures" className="farm-image" />
+                  ) : (
+                    <div className="no-image">No images available</div>
+                  )}
                   <h2 className="farm-name">
                     <b>Status:</b>
                     <span

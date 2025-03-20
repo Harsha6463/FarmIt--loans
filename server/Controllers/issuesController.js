@@ -1,14 +1,10 @@
-import express from "express";
+
 import { auth, checkRole } from "../middleware/auth.js";
 import User from "../models/User.js";
 import Issue from "../models/Issue.js";
 
-const router = express.Router();
-
-router.post(
-  "/add-issue",
-  [auth, checkRole(["farmer", "investor"])],
-  async (req, res) => {
+const IssueController= {
+  async addIssue(req, res) {
     try {
       const { issueTitle, issueDiscription } = req.body;
 
@@ -29,13 +25,9 @@ router.post(
       console.error(err);
       res.status(500).json({ message: "Server error" });
     }
-  }
-);
+  },
 
-router.get(
-  "/all-issues",
-  [auth, checkRole(["farmer", "investor", "admin"])],
-  async (req, res) => {
+  async getAllIssues(req, res) {
     try {
       const issues = await Issue.find();
       res.json(issues);
@@ -43,25 +35,16 @@ router.get(
       console.error(err);
       res.status(500).json({ message: "Server error" });
     }
-  }
-);
+  },
 
-router.get(
-  "/user-issues",
-  [auth, checkRole(["farmer", "investor"])],
-  async (req, res) => {
+  async getUserIssues(req, res) {
     try {
-      const issues = await Issue.find({ user: req.user.userId }).populate(
-        "user"
-      );
+      const issues = await Issue.find({ user: req.user.userId }).populate("user");
       res.json({ issues, role: req.user.role });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Server error" });
     }
   }
-);
-
-
-
-export default router;
+}
+ export default IssueController

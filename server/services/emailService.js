@@ -1,27 +1,28 @@
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
 
-const transporter = nodemailer.createTransport({
-  service: process.env.EMAIL_SERVICE,
+dotenv.config();
+
+const mailTransporter = nodemailer.createTransport({
+  service: 'gmail',
   auth: {
     user: process.env.EMAIL_SENDER_USERNAME,
-    pass: process.env.EMAIL_SENDER_PASSWORD
-  }
+    pass: process.env.EMAIL_SENDER_PASSWORD,
+  },
 });
 
-const sendEmail = async (to, subject, html) => {
-  try {
-    await transporter.sendMail({
-      from: process.env.EMAIL_SENDER_USERNAME,
-      to,
-      subject,
-      html
-    });
-    return true;
-  } catch (error) {
-    console.error('Email sending error:', error);
-    return false;
-  }
-};
+function sendEmail(mailDetails) {
+  mailDetails.from = process.env.EMAIL_SENDER_USERNAME;
+  
+  mailTransporter.sendMail(mailDetails, (err, data) => {
+    if (err) {
+  
+      console.error('Error while sending email:', err);
+    } else {
+      console.log('Email sent successfully:', data);
+    }
+  });
+}
 
 const emailTemplates = {
   welcomeEmail: (firstName) => ({
@@ -29,7 +30,7 @@ const emailTemplates = {
     html: `
       <h1>Welcome ${firstName}!</h1>
       <p>Thank you for joining our platform. We're excited to have you on board.</p>
-    `
+    `,
   }),
 
   loanRequestNotification: (farmName, amount) => ({
@@ -37,7 +38,7 @@ const emailTemplates = {
     html: `
       <h1>New Loan Request</h1>
       <p>A new loan request has been created for ${farmName} with amount $${amount}.</p>
-    `
+    `,
   }),
 
   investmentConfirmation: (farmName, amount) => ({
@@ -45,7 +46,7 @@ const emailTemplates = {
     html: `
       <h1>Investment Confirmed</h1>
       <p>Your investment of $${amount} in ${farmName} has been confirmed.</p>
-    `
+    `,
   }),
 
   repaymentReminder: (amount, dueDate) => ({
@@ -53,11 +54,8 @@ const emailTemplates = {
     html: `
       <h1>Repayment Reminder</h1>
       <p>Your loan payment of $${amount} is due on ${new Date(dueDate).toLocaleDateString()}.</p>
-    `
-  })
+    `,
+  }),
 };
 
-module.exports = {
-  sendEmail,
-  emailTemplates
-}; 
+export { sendEmail, emailTemplates };

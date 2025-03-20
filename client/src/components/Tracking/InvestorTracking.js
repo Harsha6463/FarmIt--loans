@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../Navbar/Navbar";
 import { NavLink } from "react-router-dom";
 import API from "../../API";
-
 import "./InvestorTracking.css";
 
 const InvestorTracking = () => {
@@ -79,7 +78,7 @@ const InvestorTracking = () => {
                   {investments.length > 0 ? (
                     investments.map((investment) => (
                       <tr key={investment._id}>
-                        <td>{investment.farm.name}</td>
+                        <td>{investment.farm && investment.farm.name}</td>
                         <td>
                           {new Date(investment.startDate).toLocaleDateString()}
                         </td>
@@ -92,9 +91,9 @@ const InvestorTracking = () => {
                           <button
                             onClick={() => handleViewDetails(investment)}
                             className="view-details-btn1"
-                            style={{backgroundColor:"black",color:"white", fontSize:"1.25rem"}}
+                            style={{ backgroundColor: "black", color: "white", fontSize: "1.25rem" }}
                           >
-                            Tracking 
+                            Tracking
                           </button>
                         </td>
                       </tr>
@@ -119,9 +118,9 @@ const InvestorTracking = () => {
         <div className="modal-overlay">
           <div className="modal">
             <button className="close-btn" onClick={closeModal}>X</button>
-            <h2 style={{color:"white"}}>{selectedInvestment.farm.name}</h2>
+            <h2 style={{ color: "white" }}>{selectedInvestment.farm && selectedInvestment.farm.name}</h2>
             <p>
-              <b>Description:</b> {selectedInvestment.farm.description}
+              <b>Description:</b> {selectedInvestment.farm && selectedInvestment.farm.description}
             </p>
             <p>
               <b>Amount Invested:</b> Rs {selectedInvestment.amount}
